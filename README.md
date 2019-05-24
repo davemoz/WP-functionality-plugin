@@ -1,4 +1,5 @@
-#What is this?
+# What is this?
+
 This is a boilerplate WordPress theme functionality plugin I pieced together for my own use based off of
 [Chris Coyier and Jason Witt's CSS Tricks Functionality plugin](https://github.com/chriscoyier/css-tricks-functionality-plugin).
 
@@ -6,10 +7,12 @@ It includes stuff I use often for most sites I build, and so can be easily reuse
 
 It will be continually updated as I add and refine components and functionality.
 
-#Can I use it?
+# Can I use it?
+
 Yes :) Let me know if you do anything cool with it.
 
-#What's included?
+# What's included?
+
 Everything is separated into different files so as to be modularly enabled/disabled. This is everything:
 
 1. Custom post types
@@ -22,8 +25,10 @@ Everything is separated into different files so as to be modularly enabled/disab
 8. Remove unwanted (mostly Jetpack) assets
 9. Remove author url from comment posts
 
-#How do I use it?
+# How do I use it?
+
 Perform a search & replace on all files, replacing `mysitename` with yoursitename, `MYSITENAME` with YOURSITENAME, and `MySiteName` with YourSiteName.
 
-#Thanks
+# Thanks
+
 Again, to [Chris Coyier](https://css-tricks.com) and [Jason Witt](https://github.com/jawittdesigns/)'s excellent and continued work.
