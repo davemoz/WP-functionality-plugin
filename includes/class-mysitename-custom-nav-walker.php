@@ -37,7 +37,10 @@ class MySiteName_Nav_Walker extends Walker_Nav_Menu {
 		$attributes .= !empty($item->target)     ? ' target="' . esc_attr($item->target) . '"' : '';
 		$attributes .= !empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn) . '"' : '';
 		$attributes .= !empty($item->url)        ? ' href="'   . esc_attr($item->url) . '"' : '';
-		$item_output = $args->before;
+		if ( class_exists( 'WooCommerce' ) ) {
+			global $woocommerce;
+			$cart_contents_count = $woocommerce->cart->cart_contents_count;
+		}
 		if (strpos($item->url, 'facebook') !== false) {
 			$item_output .= '<a' . $attributes . '><i class="fab fa-facebook-f"></i>';
 			$item_output .= '</a>';
@@ -74,9 +77,10 @@ class MySiteName_Nav_Walker extends Walker_Nav_Menu {
 				$item_output .= '<a' . $attributes . '><i class="fab fa-vimeo-v">';
 				$item_output .= '</i></a>';
 				$item_output .= $args->after;
-			} elseif (stripos($item->title, 'cart') !== false) {
+			} elseif ( ( stripos($item->title, 'cart') !== false ) && class_exists( 'WooCommerce' ) ) {
 				$item_output .= '<a' . $attributes . ' class="menu-item-cart"><i class="fas fa-shopping-cart">';
-				$item_output .= '</i></a>';
+				$item_output .= '</i>';
+				$item_output .= $cart_contents_count == 0 ? '</a>' : '<span id="cart-count">'. $cart_contents_count .'</span></a>';
 				$item_output .= $args->after;
 			} else {
 				$item_output .= '<a' . $attributes . '>' . $title;

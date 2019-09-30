@@ -10,7 +10,6 @@ class MySiteName_WooCommerce {
    * Initialize the class
    */
 	public function __construct() {
-		add_action('after_setup_theme', 'MySiteName_add_woocommerce_support');
 		add_action('after_setup_theme', 'MySiteName_woocommerce_setup');
 		add_action('after_setup_theme', 'MySiteName_remove_add_move_woocommerce_stuff');
 		add_filter('body_class', 'MySiteName_shop_body_class');
@@ -23,29 +22,9 @@ class MySiteName_WooCommerce {
 		add_filter('woocommerce_ship_to_different_address_checked', '__return_true'); // Ship to a different address opened by default
 		remove_action('woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10); // Move Login @ WooCommerce Checkout
 		add_action('MySiteName_checkout_login_form_hook', 'woocommerce_checkout_login_form');
-		add_filter('woocommerce_default_address_fields', 'MySiteName_reorder_checkout_fields');
-		add_filter('woocommerce_checkout_fields', 'MySiteName_set_billing_fields'); // Change types and placeholder text for checkout billing fields
-		add_filter('woocommerce_checkout_fields', 'MySiteName_set_shipping_fields'); // Change types and placeholder text for checkout shipping fields
-	}
-
-	/**
-	 * Add WooCommerce support.
-	 */
-	function MySiteName_add_woocommerce_support()
-	{
-		add_theme_support('woocommerce', array(
-			'thumbnail_image_width' => 400,
-			'single_image_width'    => 1200,
-
-			'product_grid'          => array(
-				'default_rows'    => 4,
-				'min_rows'        => 2,
-				'max_rows'        => 8,
-				'default_columns' => 1,
-				'min_columns'     => 4,
-				'max_columns'     => 4,
-			),
-		));
+		add_filter('woocommerce_checkout_fields', 'MySiteName_reorder_checkout_fields');
+		add_action('woocommerce_checkout_fields', array( $this, 'MySiteName_set_billing_fields' ) ); // Change types and placeholder text for checkout billing fields
+		add_action('woocommerce_checkout_fields', array( $this, 'MySiteName_set_shipping_fields' ) ); // Change types and placeholder text for checkout shipping fields
 	}
 
 	/**
@@ -196,6 +175,7 @@ class MySiteName_WooCommerce {
 		// e.g. move 'country' above 'first_name':
 		// just assign priority less than 10
 		$fields['country']['priority'] = 95;
+		$fields['shipping']['country']['priority'] = 95;
 
 		return $fields;
 	}
@@ -228,12 +208,19 @@ class MySiteName_WooCommerce {
 				'required'    => true
 			),
 			'billing_state' => array(
+				'type'				=> 'state',
 				'placeholder' => 'State',
+				'class'				=> array( 'form-row-first'),
 				'required'    => true
 			),
 			'billing_postcode' => array(
 				'placeholder' => 'ZIP code',
 				'type' 	   => 'tel',
+				'class'				=> array( 'form-row-last'),
+				'required'    => true
+			),
+			'billing_country' => array(
+				'type' 	      => 'country',
 				'required'    => true
 			),
 			'billing_email' => array(
@@ -258,7 +245,7 @@ class MySiteName_WooCommerce {
 				'placeholder' => 'Last name'
 			),
 			'shipping_address_1' => array(
-				'placeholder' => 'Address'
+				'placeholder' => 'Shipping address'
 			),
 			'shipping_address_2' => array(
 				'placeholder' => 'Apartment, suite, unit, etc. (optional)'
@@ -267,12 +254,19 @@ class MySiteName_WooCommerce {
 				'placeholder' => 'City'
 			),
 			'shipping_state' => array(
-				'placeholder' => 'State'
+				'type'				=> 'state',
+				'placeholder' => 'State',
+				'class'				=> array( 'form-row-first')
 			),
 			'shipping_postcode' => array(
 				'placeholder' => 'ZIP code',
 				'type' 		  => 'tel',
+				'class'				=> array( 'form-row-last'),
 			),
+			'shipping_country' => array(
+				'type'				=> 'country',
+				'placeholder' => 'Country'
+			)
 		);
 		return $shipping_fields;
 	}
