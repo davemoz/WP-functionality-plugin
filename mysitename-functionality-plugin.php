@@ -129,6 +129,7 @@ if( !class_exists( 'MySiteName_Functionality' ) ) {
 			require_once MYSITENAME_PLUGIN_DIR . 'includes/class-mysitename-remove-unwanted-assets.php';
 			require_once MYSITENAME_PLUGIN_DIR . 'includes/class-mysitename-remove-post-author-url.php';
 			require_once MYSITENAME_PLUGIN_DIR . 'includes/class-mysitename-custom-pagi.php';
+			require_once MYSITENAME_PLUGIN_DIR . 'includes/class-mysitename-remove-wp-version.php';
 
 
 			require_once MYSITENAME_PLUGIN_DIR . 'includes/class-mysitename-init.php';

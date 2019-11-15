@@ -25,6 +25,7 @@ class MySiteName_Init {
 		$remove_jetpack_bar      = new MySiteName_Remove_Jetpack_Bar();
 		$remove_assets			 = new MySiteName_Remove_Unwated_Assets();
 		$remove_post_author_url  = new MySiteName_Remove_Post_Author_Url();
+		$remove_wp_version			= new MySiteName_Remove_WP_Version();
 		
 	}
 }
