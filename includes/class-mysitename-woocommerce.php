@@ -14,7 +14,6 @@ class MySiteName_WooCommerce {
 		add_action('after_setup_theme', 'MySiteName_remove_add_move_woocommerce_stuff');
 		add_filter('body_class', 'MySiteName_shop_body_class');
 		add_filter('woocommerce_product_tabs', 'MySiteName_rename_tabs', 98);
-		add_filter('wp_nav_menu_items','MySiteName_menucart', 10, 2);
 		add_action('woocommerce_before_main_content', 'MySiteName_add_shop_loop_wrapper_open', 40);
 		add_action('woocommerce_after_main_content', 'MySiteName_add_shop_loop_wrapper_close', 5);
 		add_action('woocommerce_before_shop_loop_item_title', 'MySiteName_add_product_title_and_price_wrapper_open', 20);
@@ -65,50 +64,6 @@ class MySiteName_WooCommerce {
 		unset($tabs['additional_information']); // Remove the additional information tab
 
 		return $tabs;
-	}
-
-	/**
-	 * Place a cart icon with number of items and total cost in the menu bar.
-	 *
-	 * Source: http://wordpress.org/plugins/woocommerce-menu-bar-cart/
-	 */
-	function MySiteName_menucart($menu, $args) {
-
-		// Check if WooCommerce is active and add a new item to a menu assigned to the Shop Menu location
-		if ( !in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || 'shop-menu' !== $args->theme_location )
-			return $menu;
-
-			ob_start();
-			global $woocommerce;
-			$viewing_cart = __('View your shopping cart', 'WPSS');
-			$start_shopping = __('Start shopping', 'WPSS');
-			$cart_url = $woocommerce->cart->get_cart_url();
-			$shop_page_url = get_permalink( woocommerce_get_page_id( 'shop' ) );
-			$cart_contents_count = $woocommerce->cart->cart_contents_count;
-			//$cart_contents = sprintf(_n('%d item', '%d items', $cart_contents_count, 'WPSS'), $cart_contents_count);
-			$cart_total = $woocommerce->cart->get_cart_total();
-			// Uncomment the line below to hide nav menu cart item when there are no items in the cart
-			// if ( $cart_contents_count > 0 ) {
-				if ($cart_contents_count == 0) {
-					$menu_item = '<li class="cart-menu-link"><a class="wcmenucart-contents" href="'. $shop_page_url .'" title="'. $start_shopping .'">';
-				} else {
-					$menu_item = '<li class="cart-menu-link"><a class="wcmenucart-contents" href="'. $cart_url .'" title="'. $viewing_cart .'">';
-				}
-
-				$menu_item .= '<i class="fa fa-shopping-cart"></i> ';
-
-				if ($cart_contents_count == 0) {
-				} else {
-					$menu_item .= '<div class="cart-count-total">'.$cart_contents_count.'</div>';
-					//$menu_item .= $cart_contents.' - '. $cart_total;
-				}
-				$menu_item .= '</a></li>';
-			// Uncomment the line below to hide nav menu cart item when there are no items in the cart
-			// }
-			echo $menu_item;
-		$social = ob_get_clean();
-		return $menu . $social;
-
 	}
 
 	/**

@@ -24,15 +24,21 @@ class MySiteName_Insert_Figure {
      * @access public
      * @return string return custom output for inserted images in posts
      */
-	public function insert_figure($html, $id, $caption, $title, $align, $url) {
+	public function insert_figure($html, $id, $caption, $title, $align, $url, $size, $alt) {
+		$img_src = wp_get_attachment_image_src( $id, $size );
 		// remove protocol
 		$url = str_replace(array('http://','https://'), '//', $url);
-		$html5 = "<figure id='post-$id' class='align-$align media-$id'>";
-		$html5 .= "<img src='$url' alt='$title' />";
-		if ($caption) {
-		  	$html5 .= "<figcaption>$caption</figcaption>";
+
+		if( !empty( $url ) ) {
+			$html =  "<a href='$url' class='img-link'>";
+			$html .= "<figure id='post-$id' class='align-$align media-$id size-$size'>";
+			$html .= "<img src='$img_src[0]' title='$title' alt='$alt' />";
+			if ($caption) {
+				$html .= "<figcaption>$caption</figcaption>";
+			}
+			$html .= "</figure></a>";
 		}
-		$html5 .= "</figure>";
-		return $html5;
+		
+		return $html;
 	}
 }
